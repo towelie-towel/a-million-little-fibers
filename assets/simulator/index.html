@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en-CA">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Position Simulator</title>
+  <meta name="viewport" content="width=device-width" />
+  <link href="/daisyui.min.css" rel="stylesheet" type="text/css" />
+  <script src="/tailwindcss.min.js"></script>
+  <script src="/htmx.min.js"></script>
+  <link rel="shortcut icon" href="/favicon/favicon.ico" type="image/x-icon">
+</head>
+
+<body class="w-full h-screen">
+  <div class="root w-full h-full">
+
+    <div class="navbar bg-base-100">
+      <div class="navbar-start">
+        <div class="dropdown">
+          <label tabindex="0" class="btn btn-ghost btn-circle">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+            </svg>
+          </label>
+          <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
+            <li><a>Homepage</a></li>
+            <li><a>Portfolio</a></li>
+            <li><a>About</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="navbar-center">
+        <a class="btn btn-ghost normal-case text-xl">daisyUI</a>
+      </div>
+      <div class="navbar-end">
+        <button class="btn btn-ghost btn-circle" onclick="add_subscriber_modal.showModal()">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+          </svg>
+        </button>
+        <button class="btn btn-ghost btn-circle">
+          <div class="indicator">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+              stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+            </svg>
+            <span class="badge badge-xs badge-primary indicator-item"></span>
+          </div>
+        </button>
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr class="hover">
+            <th>Type</th>
+            <th>ID</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+          </tr>
+        </thead>
+        <tbody id="streaming-table-body">
+          <!-- row 1 -->
+          <tr class="hover">
+            <td>Taxi</td>
+            <td>eff41f96-178e-4e97-9f43-35d4de7b7a18</td>
+            <td>23.118439331498397</td>
+            <td>-82.38065080644563</td>
+          </tr>
+          <!-- row 2 -->
+          <tr class="hover">
+            <td>Taxi</td>
+            <td>4b010feb-57d5-42c7-b657-6a4d2fe6e1fe</td>
+            <td>23.121832663066453</td>
+            <td>-82.40442767880837</td>
+          </tr>
+          <!-- row 3 -->
+          <tr class="hover">
+            <td>Taxi</td>
+            <td>3fe1f5d0-7472-4864-aefb-6f8e2a6dc2c0</td>
+            <td>23.132877519361337</td>
+            <td>-82.39034077962398</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="divider">OR</div>
+
+    <div class="overflow-x-auto">
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr class="hover">
+            <th>Type</th>
+            <th>Status</th>
+            <th>Latitude</th>
+            <th>Longitude</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody id="subscribers-table-body">
+        </tbody>
+      </table>
+    </div>
+
+
+
+    <dialog id="add_subscriber_modal" class="modal">
+      <div class="modal-box">
+        <div class="flex flex-col justify-end items-center w-full gap-4 p-4">
+          <h1 class="" onclick="add_subscriber_modal.close()">Add Subscriber</h1>
+          <div class="flex gap-2">
+            <div className="subscriber-role">
+              <label className="label cursor-pointer">
+                <span className="label-text">Taxi</span>
+                <input type="radio" name="role-radio" value="taxi" className="radio checked:bg-yellow-500" checked />
+              </label>
+            </div>
+            <div className="subscriber-role">
+              <label className="label cursor-pointer">
+                <span className="label-text">Client</span>
+                <input type="radio" name="role-radio" value="client" className="radio checked:bg-blue-500" checked />
+              </label>
+            </div>
+            <div className="subscriber-role">
+              <label className="label cursor-pointer">
+                <span className="label-text">Admin</span>
+                <input type="radio" name="role-radio" value="admin" className="radio checked:bg-red-500" checked />
+              </label>
+            </div>
+          </div>
+          <div class="flex flex-row items-center justify-center gap-4">
+            <input type="text" placeholder="id" class="input w-2/5 input-bordered" id="id-input">
+          </div>
+          <div class="flex flex-row items-center justify-center gap-4">
+            <input type="text" placeholder="origin" class="input w-2/5 input-bordered" id="origin-input">
+            <input type="text" placeholder="destination" class="input w-2/5 input-bordered" id="destination-input">
+          </div>
+        </div>
+        <div class="modal-action">
+          <form method="dialog">
+            <button class="btn" id="connect-and-emmit-btn">Start</button>
+            <button class="btn">Close</button>
+          </form>
+        </div>
+      </div>
+  </div>
+  <form method="dialog" class="modal-backdrop">
+    <button>close</button>
+  </form>
+  </dialog>
+  <script type="text/javascript" src="/index.js"></script>
+</body>
+
+</html>
